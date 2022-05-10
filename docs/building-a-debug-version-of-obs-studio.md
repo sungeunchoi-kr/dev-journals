@@ -48,3 +48,20 @@ After configuring is done, click the "Generate" button. I have added the other f
 Visual Studio project solution will be generated in `obs-studio\build\obs-studio.sln`. Open the project and build the solution.
 
 If you get the `atlbase.h: No such file or directory` error, install the "C++ ATL vXXX build tools with Spectre Mitigations" component in Visual Studio Installer > Individual components tab.
+
+## Building the Virtual Camera
+Resources:
+ - https://github.com/obsproject/obs-studio/issues/4286
+ - https://github.com/obsproject/obs-studio/wiki/build-instructions-for-windows#5-install-the-virtual-camera
+
+This command:
+```
+PS> cmake -G "Visual Studio 16 2019" -A x64 -S . -B build64 -D CMAKE_PREFIX_PATH=D:/sung/projects/obs/obs-studio/deps -D VIRTUALCAM_GUID=e61ba6f1-ac3a-47b6-aaee-b537088061e4 -D CMAKE_CONFIGURATION_TYPES=Release
+
+PS> cmake --build .\build64 --config Release
+```
+does generate the `obs-virtualcam-module64.dll` and other installation scripts in `rundir\Release\data\obs-plugins\win-dshow`; however, running the installation script did not result in the "Start virutal camera" button being shown on the OBS UI.
+
+To fix this, referenced https://stackoverflow.com/a/71047142 -- the `vcam_installed(bool b64)` in `dshow-plugin.cpp` takes in an argument that when set to `true`, searches for the 64-bit version of the driver. Set that to true and the virtual camera is recognized.
+
+NOTE: the `obs-plugins\win-dshow\virtualcam-install.bat` virtual camera installation batch script had to be modified to not install the 32-bit version of the dll which does not exist.
