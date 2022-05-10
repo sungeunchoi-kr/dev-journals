@@ -1,6 +1,6 @@
 # Fix the Logic AU Validation Error -- Class Data fields do not match component description
 
-Using [iPlug2](https://github.com/iPlug2/iPlug2) to make [Muse](www.musesessions.co) audio plugins, the AU plugin validation was failing with the error message:
+Using [iPlug2](https://github.com/iPlug2/iPlug2) to make [Muse](https://www.musesessions.co) audio plugins, the AU plugin validation was failing with the error message:
 
 ```
 VERIFYING CLASS INFO
